@@ -1,6 +1,5 @@
 package com.technews.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -9,21 +8,25 @@ import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "comment")
-public class Comment implements Serializable {
+@Table(name = "vote")
+public class Vote implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String commentText;
     private Integer userId;
     private Integer postId;
 
-    public Comment() {
+    public Vote() {
     }
 
-    public Comment(Integer id, String commentText, Integer userId, Integer postId) {
+    public Vote(Integer id, Integer userId, Integer postId) {
         this.id = id;
-        this.commentText = commentText;
+        this.userId = userId;
+        this.postId = postId;
+    }
+
+    public Vote(Integer userId, Integer postId) {
         this.userId = userId;
         this.postId = postId;
     }
@@ -34,14 +37,6 @@ public class Comment implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getCommentText() {
-        return commentText;
-    }
-
-    public void setCommentText(String commentText) {
-        this.commentText = commentText;
     }
 
     public Integer getUserId() {
@@ -63,21 +58,22 @@ public class Comment implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return Objects.equals(id, comment.id) && Objects.equals(commentText, comment.commentText) && Objects.equals(userId, comment.userId) && Objects.equals(postId, comment.postId);
+        if (!(o instanceof Vote)) return false;
+        Vote vote = (Vote) o;
+        return Objects.equals(getId(), vote.getId()) &&
+                Objects.equals(getUserId(), vote.getUserId()) &&
+                Objects.equals(getPostId(), vote.getPostId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, commentText, userId, postId);
+        return Objects.hash(getId(), getUserId(), getPostId());
     }
 
     @Override
     public String toString() {
-        return "Comment{" +
+        return "Vote{" +
                 "id=" + id +
-                ", commentText='" + commentText + '\'' +
                 ", userId=" + userId +
                 ", postId=" + postId +
                 '}';
