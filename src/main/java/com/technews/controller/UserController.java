@@ -15,15 +15,14 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserRepository repository;
-
     @Autowired
     VoteRepository voteRepository;
-
     @GetMapping("/api/users")
-    public List<User> getAllUsers(){
-        for(User u : userList) {
-            List<Post> postList= u.getPosts();
-            for(Post p : postList){
+    public List<User> getAllUsers() {
+        List<User> userList = repository.findAll();
+        for (User u : userList) {
+            List<Post> postList = u.getPosts();
+            for (Post p : postList) {
                 p.setVoteCount(voteRepository.countVotesByPostId(p.getId()));
             }
         }
