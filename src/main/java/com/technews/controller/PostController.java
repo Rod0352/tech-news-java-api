@@ -61,6 +61,7 @@ public class PostController {
 
 
     @PutMapping("/api/posts/upvote")
+//    Keep track of each post upvoted
     public String addVote(@RequestBody Vote vote, HttpServletRequest request) {
         String returnValue = "";
 
